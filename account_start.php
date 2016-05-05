@@ -1,0 +1,12 @@
+<html>
+<head>
+<title>UpdateAccount</title>
+</head>
+<body>
+<?php
+session_start();
+$_SESSION['UpdateErr']="";
+header("location:account.php");
+?>
+</body>
+</html>

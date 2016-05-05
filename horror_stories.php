@@ -17,7 +17,7 @@ $variable = $_SESSION['UserName'];
 <ul id="menu">
 <li><a href="homepage.php">HOME</a></li>
 <li><a href="UsersILike.php">MY LIKES</a></li>
-<li><a href="account.php" >MY PROFILE</a></li>
+<li><a href="account_start.php" >MY PROFILE</a></li>
 <li><a href="aboutus.php" style="color: #4E79CB">ABOUT US </a></li>
 <li><a href="logout.php">LOGOUT</a></li>
 </ul>

@@ -3,76 +3,52 @@ session_start();
 
 // define Username for this session
 $variable = $_SESSION['UserName'];
+$FNErr=$_SESSION['FNErr'];
+$LNErr=$_SESSION['LNErr'];
+$LErr=$_SESSION['LErr'];
+$WErr=$_SESSION['WErr'];
+$AYErr=$_SESSION['AYErr'];
 
 // define variables that have errors and set Errors
-$Err=""; 
+
+$FNErr=$LNErr=$LErr=$WErr=$AYErr=""; 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 if(empty($_POST['Text1'])){
-  	$Err = $Err."<br> Invalid Firstname.";
+  	$FNErr = "Invalid Firstname.";
 } else $Firstname = $_POST['Text1'];
 if(empty($_POST['Text2'])){
-  	$Err = $Err."<br> Invalid Lastname.";
+  	$LNErr = "Invalid Lastname.";
 } else $Lastname = $_POST['Text2'];
 if (empty($_POST['my_location'])){
-$Err = $Err."<br> Invalid location.";
+$LErr ="Please select at least one location.";
 }else $Location= $_POST['my_location'];
-if(empty($_POST['gender'])){
-  	$Err = $Err."<br> Invalid gender choice.";
-} else $Gender = $_POST['gender'];
-if(empty($_POST['athlete'])){
-  	$Err = $Err."<br> Invalid athlete choice.";
-}else $Athlete = $_POST['athlete'];
-if(empty($_POST['smoker'])){
-  	$Err = $Err."<br> Invalid smoker choice.";
-} else $Smoker = $_POST['smoker'];
-if(empty($_POST['drinker'])){
-  	$Err = $Err."<br> Invalid drinker choice.";
-} else $Drinker = $_POST['drinker'];
-if(empty($_POST['studyhours'])){
-  	$Err = $Err."<br> Invalid study hours choice.";
-} else $StudyHours = $_POST['studyhours'];
-if(empty($_POST['studylocation'])){
-  	$Err = $Err."<br> Invalid study location choice.";
-}else $StudyLocation = $_POST['studylocation'];
-if(empty($_POST['sleephours'])){
-  	$Err = $Err."<br> Invalid sleep hours choice.";
-} else $SleepHours = $_POST['sleephours'];
-if(empty($_POST['sleepertype'])){
-  	$Err = $Err."<br> Invalid sleeper type choice.";
-} else $SleeperType = $_POST['sleepertype'];
-if(empty($_POST['cleaning'])){
-  	$Err = $Err."<br> Invalid cleaning habits choice.";
-} else $CleaningHabits = $_POST['cleaning'];
 if(empty($_POST['weekend'])){
-  	$Err = $Err."<br>  Please select at least one weekend hobby.";
+  	$WErr = "Please select at least one weekend hobby.";
 } else $Hobby = $_POST['weekend'];
-if(empty($_POST['friendsover'])){
-  	$Err = $Err."<br> Invalid friends over preference.";
-} else $FriendsOver= $_POST['friendsover'];
-if(empty($_POST['overnightguest'])){
-  	$Err = $Err."<br> Invalid overnight guest preference.";
-} else $OvernightGuests = $_POST['overnightguest'];
-if(empty($_POST['roommate_friendsover'])){
-  	$Err = $Err."<br> Invalid roommate having friends over preference.";
-} else $Roommate_friendsover = $_POST['roommate_friendsover'];
-if(empty($_POST['roommate_overnightguest'])){
-  	$Err = $Err."<br> Invalid roommate having overnight guest preference.";
-} else $Roommate_overnightguest = $_POST['roommate_overnightguest'];
-if(empty($_POST['expectations'])){
-  	$Err = $Err."<br> Invalid roommate expectation choice.";
-}else $Expectations = $_POST['expectations'];
-if(empty($_POST['sharing'])){
-  	$Err = $Err."<br> Invalid roommate sharing choice.";
-} else $Sharing = $_POST['sharing'];
 if (empty($_POST['aboutyou'])){
-	$Err."<br> Please enter something about yourself.";
+	$AYErr ="Please enter something about yourself.";
 } else $AboutYou = $_POST['aboutyou'];
 
-echo $Err;
+echo $FNErr."<br>".$LNErr."<br>".$LErr."<br>".$AYErr;
 }
    
 // define variables without errors 
 if(isset($_POST["submit"])){
+$Gender = $_POST['gender'];
+$Athlete = $_POST['athlete'];
+$Smoker = $_POST['smoker'];
+$Drinker = $_POST['drinker'];
+$StudyHours = $_POST['studyhours'];
+$StudyLocation = $_POST['studylocation'];
+$SleepHours = $_POST['sleephours'];
+$SleeperType = $_POST['sleepertype'];
+$CleaningHabits = $_POST['cleaning'];
+$FriendsOver= $_POST['friendsover'];
+$OvernightGuests = $_POST['overnightguest'];
+$Roommate_friendsover = $_POST['roommate_friendsover'];
+$Roommate_overnightguest = $_POST['roommate_overnightguest'];
+$Expectations = $_POST['expectations'];
+$Sharing = $_POST['sharing'];
 $YearOfGraduation = $_POST['yog'];
 $ClassCode = $_POST['class_code'];
 $Facebook = $_POST['facebook'];
@@ -93,6 +69,9 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+echo 'Errors are: '.$LNErr.$FNErr.$LErr.$WErr.$AYErr;
+if (empty($FNErr) && empty($LNErr) && empty($LErr) && empty($WErr) && empty($AYErr)){
+echo ' entered loop';
 
 // SQL statement to update profile
 $sql2 = "UPDATE profile SET Firstname='$Firstname', Lastname='$Lastname', YOGID='$YearOfGraduation', ClassCode=$ClassCode, Gender='$Gender',Athlete='$Athlete',Smoker='$Smoker',Drinker='$Drinker',clean='$CleaningHabits',sleepType='$SleeperType',sleepHours='$SleepHours',studyHours='$StudyHours',locationOfStudy='$StudyLocation',friends='$FriendsOver',guest='$OvernightGuests',roommateFriend='$Roommate_friendsover',roommateGuest='$Roommate_overnightguest',expectations='$Expectations',belongings='$Sharing', AboutYou='$AboutYou', Facebook='$Facebook', LinkedIn='$LinkedIn', Instagram='$Instagram' WHERE  Username='$variable'";
@@ -132,6 +111,18 @@ if ($conn->query($sql3) === TRUE) {
 } else {
     echo "Error with updating profile: " . $sql3 . "<br>" . $conn->error;
 }}
+}else {
+echo ' There is an error somewhere';
+}
+$_SESSION['UpdateErr']=$FNErr.$LNErr.$LErr.$WErr.$AYErr;
+$_SESSION['FNErr']=$FNErr;
+$_SESSION['LNErr']=$LNErr;
+$_SESSION['LErr']=$LErr;
+$_SESSION['WErr']=$WErr;
+$_SESSION['AYErr']=$AYErr;
+
+echo "Location Error is".$LErr;
+echo "Session error is".$_SESSION['LErr'];
 
 header("location:account.php");
 

@@ -15,6 +15,16 @@ th, td {
 <?php
 
 session_start();
+if(empty($_SESSION['UpdateErr'])){
+$FNErr=$LNErr=$LErr=$WErr=$AYErr="";
+}
+else {
+$FNErr=$_SESSION['FNErr'];
+$LNErr=$_SESSION['LNErr'];
+$LErr=$_SESSION['LErr'];
+$WErr=$_SESSION['WErr'];
+$AYErr=$_SESSION['AYErr'];
+}
 
 $servername = "frodo.bentley.edu";
 $username = "cs460teamd";
@@ -80,7 +90,7 @@ $conn->close();
 			<ul id="menu">
 				<li><a href="homepage.php">HOME</a></li>
 				<li><a href="UsersILike.php">MY LIKES</a></li>
-				<li><a href="account.php" style="color:#0075BE">MY PROFILE</a></li>
+				<li><a href="account_start.php" style="color:#0075BE">MY PROFILE</a></li>
 				<li><a href="aboutus.php">ABOUT US</a></li>
 				<li><a href="logout.php">LOGOUT</a></li>
 			</ul>
@@ -96,8 +106,11 @@ $conn->close();
 				<td align="center" colspan="1" >
 				<img src="<?php echo 'uploadedPictures/'.$variable.'.jpg';?>" alt="profile picture" width="150px" height="150px">
 				</td>
-				<td colspan="2"><font id="question">First Name</font><br>
+				<td colspan="2">
+				<font id="error"><?php echo $FNErr?></font><br>
+				<font id="question">First Name</font><br>
 				<input name="Text1" style="width: 254px; height: 40px;" type="text" value="<?php echo $FirstName; ?>"> <br>
+				<font id="error"><?php echo $LNErr?></font><br>
 				<font id="question">Last 	Name</font><br>
 				<input name="Text2" style="width: 254px; height: 41px;" type="text" value="<?php echo $LastName; ?>">
 				</td>
@@ -127,12 +140,14 @@ $conn->close();
 			<!-- Second row = about me, location -->
 			<tr>
 				<td colspan="2" style="height: 178px; vertical-align: top;">
+				<font id="error"><?php echo $AYErr?></font><br>
 				<p id="question">About You (Major, Study 
 				Abroad, Hobbies, etc.)</p>
 				<input id="answer" name="aboutyou" style="width: 447px; height: 121px" type="text" value="<?php echo $AboutYou; ?>">
 				</td>
 				<td align="left" colspan="1" rowspan="2" style="width: 50px; vertical-align: top;"></td>
 				<td align="left" colspan="1" rowspan="2" style="width: 308px; vertical-align: top;">
+				<font id="error"><?php echo $LErr?></font><br>
 				<p id="question" align="center">Preferred Location</p>
 				<input id="answer" name="my_location[]" type="checkbox" value="Boylston" <?php foreach($result2 as $row){if($row['location']=="Boylston") echo "checked";}?>>Boylston <br>
 				<input id="answer" name="my_location[]" type="checkbox" value="Collins" <?php foreach($result2 as $row){if($row['location']=="Collins") echo "checked";}?>>Collins <br>
@@ -240,6 +255,7 @@ $conn->close();
 				<input id="messy" name="cleaning" type="radio" <?php if(isset($CleaningHabits) && $CleaningHabits=='messy') echo 'checked';?> value="messy"><label for="messy"><img alt="icon" height="100x" src="images/messy%20icon.png" width="100px"></label>
 				</td>
 				<td>
+				<font id="error"><?php echo $WErr?></font><br>
 				<p id="question" align="center">How do you spend your weekends?</p>
 				<input id="answer" name="weekend[]" type="checkbox" value="Going out with friends" <?php foreach($result3 as $row3){if($row3['hobby']=="Going out with friends") echo "checked";}?>>Going 
 				out with friends<br>

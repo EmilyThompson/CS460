@@ -88,7 +88,7 @@ $filterErr="";
 			<ul id="menu">
 				<li><a href="homepage.php"style="color:#0075BE">HOME</a></li>
 				<li><a href="UsersILike.php">MY LIKES</a></li>
-				<li><a href="account.php" >MY PROFILE</a></li>
+				<li><a href="account_start.php" >MY PROFILE</a></li>
 				<li><a href="aboutus.php">ABOUT US</a></li>
 				<li><a href="logout.php">LOGOUT</a></li>
 			</ul>
@@ -595,7 +595,6 @@ $conn->close();  // close connection
 	var image = document.getElementById(name);
     if (image.src.match("images/openheart.png")) {
         image.src = "images/redheart.png";
-        $sql
     } else {
         image.src = "images/openheart.png";
     }

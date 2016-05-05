@@ -30,7 +30,7 @@
 	<ul id="menu">
 		<li><a href="homepage.php">HOME</a></li>
 		<li><a href="UsersILike.php"style="color: #4E79CB">MY LIKES</a></li>
-		<li><a href="account.php" >MY PROFILE</a></li>
+		<li><a href="account_start.php" >MY PROFILE</a></li>
 		<li><a href="aboutus.php">ABOUT</a></li>
 		<li><a href="logout.php">LOGOUT</a></li>
 	</ul>
