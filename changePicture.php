@@ -8,6 +8,7 @@
 session_start();
 $variable=$_SESSION['UserName'];
 ?>
+
 <div id="form" align="center">
 	<img align="middle" alt="LOGO" src="images/Find%20a%20Falcon%20FINAL%20logo.png" title="Logo">
 	<br><font id="welcome">Welcome <?php echo $variable?>!</font>

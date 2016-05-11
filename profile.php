@@ -1,10 +1,10 @@
-<html>
+ <html>
 <head>
 <title>Find a Falcon</title>
-<link rel="stylesheet" type="text/css" href="final.css">
-	<script type="text/javascript" src="js/homepage.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-	<script>
+<link href="final.css" rel="stylesheet" type="text/css">
+<script src="js/homepage.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script>
 	$(document).ready(function(){
 			$(".clickimage").click(function(){
 			var imageId =$(this).attr('id');
@@ -19,8 +19,7 @@
 			
 		});
 	});
-	</script>
-
+</script>
 </head>
 <body>
 <?php
@@ -30,6 +29,7 @@ session_start();
 $name=$_GET['name'];
 $variable=$_SESSION['UserName'];
 
+// Connection Credentials
 $servername = "frodo.bentley.edu";
 $username = "cs460teamd";
 $password = "cs460teamd";
@@ -42,6 +42,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// SQL statement to get user's profile information
 $sql1 = "SELECT * FROM profile WHERE Username='$name'";
 $result = $conn->query($sql1);
 if($result->num_rows>0) {
@@ -75,12 +76,15 @@ $Instagram = $row['Instagram'];
 	echo '0 results';
 	}
 
+// SQL to get location information
 $sql2 = "SELECT location FROM locationform WHERE User='$Username'";
 $result2 = $conn->query($sql2);
 
+// SQL to get hobby information
 $sql3 = "SELECT hobby FROM weekendhobby WHERE user='$Username'";
 $result3 = $conn->query($sql3);
 
+// SQL to determine if current user likes this profile
 $sql1= "Select otherUser From like_tbl where username='".$variable."'";
 $result78= $conn->query($sql1);
 $UserArr=array();
@@ -95,130 +99,135 @@ if (in_array($Username, $UserArr)){
  $heart="images/openheart.png";
  }
 
-
 $conn->close();	
 ?>
 <div id="page-wrap" align="center">
-		<!-- CENTER WHOLE DOC -->
-
-		<a href="homepage.php"><img align="middle" alt="LOGO" src="images/Find%20a%20Falcon%20FINAL%20logo.png" title="Logo"></a>
-			<ul id="menu">
-				<li><a href="homepage.php">HOME</a></li>
-				<li><a href="UsersILike.php">MY LIKES</a></li>
-				<li><a href="account_start.php">MY PROFILE</a></li>
-				<li><a href="aboutus.php">ABOUT US</a></li>
-				<li><a href="logout.php">LOGOUT</a></li>
-			</ul>
-			<br>
-			<table width="50%" align="center">
-			<tr align="center">
-			<td colspan="4" align="center">
-			<a href="message.php?name=<?php echo $Username?>"><button id="submit">Send Email</button><br></a>
-			</td>
-			</tr>
-			<tr>
+	<!-- CENTER WHOLE DOC --><a href="homepage.php">
+	<img align="middle" alt="LOGO" src="images/Find%20a%20Falcon%20FINAL%20logo.png" title="Logo"></a>
+	<ul id="menu">
+		<li><a href="homepage.php">HOME</a></li>
+		<li><a href="UsersILike.php">MY LIKES</a></li>
+		<li><a href="account_start.php">MY PROFILE</a></li>
+		<li><a href="aboutus.php">ABOUT US</a></li>
+		<li><a href="logout.php">LOGOUT</a></li>
+	</ul>
+	<br>
+	<table align="center" width="50%">
+		<tr align="center">
+			<td align="center" colspan="4">
+			<a href="message.php?name=<?php echo $Username?>">
+			<button id="submit">Send Email</button><br></a></td>
+		</tr>
+		<tr>
 			<td>
-			<img id="<?php echo $name?>" onclick="changeImage()" src="<?php echo $heart?>" alt="heart" class="clickimage">
+			<img id="<?php echo $name?>" alt="heart" class="clickimage" onclick="changeImage()" src="<?php echo $heart?>">
 			</td>
 			<td style="width: 160px">
-			<img src="uploadedPictures/<?php echo $name?>.jpg" alt="profile picture" width="150px" height="150px">
+			<img alt="profile picture" height="150px" src="uploadedPictures/<?php echo $name?>.jpg" width="150px">
 			</td>
 			<td style="width: 322px">
-			<font style="color:#0075BE; font-family:Ebrima; font-size:32px; font-weight:bold;"><?php echo $Firstname." ".$Lastname?></font><br>
+			<font style="color: #0075BE; font-family: Ebrima; font-size: 32px; font-weight: bold;">
+			<?php echo $Firstname." ".$Lastname?></font><br>
 			<font id="information">Class Code <?php echo $ClassCode?></font><br>
-			<font id="information">Class of <?php echo $YearOfGraduation?></font><br>
-			<?php if ($Facebook!==""){
+			<font id="information">Class of <?php echo $YearOfGraduation?>
+			</font><br><?php if ($Facebook!==""){
 			echo '<a href="'.$Facebook.'"><img src="images/facebook.png" alt="facebook" height="36" width="38"></a>';
-			}?>
-			<?php if ($Instagram!==""){
+			}?><?php if ($Instagram!==""){
 			echo '<a href="'.$Instagram.'"><img src="images/instagram.gif" alt="instagram" height="37" width="41"></a>';
-			}?>
-			<?php if ($LinkedIn!==""){
+			}?><?php if ($LinkedIn!==""){
 			echo '<a href="'.$LinkedIn.'"><img src="images/linkedin.png" alt="linkedin" height="41" width="43"></a>';
 			}?></td>
 			<td>
 			<p id="aboutme"><?php echo $AboutYou?></p>
 			</td>
-			</tr>
+		</tr>
+		<tr>
+			<td colspan="3"><br>
+			<font style="font-family: Ebrima; font-size: 16px; font-weight: bold">
+			Preferred Locations:</font><br>
+			<font style="font-family: Ebrima; font-size: 14px"><?php foreach($result2 as $row){echo "-".$row['location']."<br>";}?>
+			</font></td>
+			<td colspan="1"><br>
+			<font style="font-family: Ebrima; font-size: 16px; font-weight: bold">
+			Hobbies:</font><br>
+			<font style="font-family: Ebrima; font-size: 14px"><?php foreach($result3 as $row){echo "-".$row['hobby']."<br>";}?>
+			</font></td>
+		</tr>
+	</table>
+	<h1 style="font-family: Ebrima">Profile:</h1>
+	<img alt="gender" src="images/<?php echo $Gender?>%20icon.png">
+	<img alt="athlete" src="images/<?php echo $Athlete?>%20icon.png"><br>
+	<img alt="smoker" src="images/<?php echo $Smoker?>%20icon.png">
+	<img alt="drinker" src="images/<?php echo $Drinker?>%20icon.png"> 
+		<img alt="cleaninghabits" src="images/<?php echo $CleaningHabits?>%20icon.png"><br>
+	<img alt="sleepertype" src="images/<?php echo $SleeperType?>%20icon.png">
+	<img alt="sleephours" src="images/<?php echo $SleepHours?>%20icon.png">
+	<br><br>
+	<!-- Table-->
+	<table align="center">
 			<tr>
-			<td colspan="3">
-			<br>
-			<font style="font-family:Ebrima; font-size:16px;font-weight:bold">Preferred Locations:</font><br>
-			<font style="font-family:Ebrima; font-size:14px"><?php foreach($result2 as $row){echo "-".$row['location']."<br>";}?></font>
+			<td align="center">
+			<font style="font-family: Ebrima; font-size: 16px; font-weight: bold">
+			I study <br>(hours per week):</font><br>
+	<img alt="studyhours" src="images/<?php echo $StudyHours?>%20icon.png">
 			</td>
-			<td colspan="1">
-			<br>
-			<font style="font-family:Ebrima; font-size:16px;font-weight:bold">Hobbies:</font><br>
-			<font style="font-family:Ebrima; font-size:14px"><?php foreach($result3 as $row){echo "-".$row['hobby']."<br>";}?></font>
+			<td align="center">
+			<font style="font-family: Ebrima; font-size: 16px; font-weight: bold">
+			My preferred<br> study location is:</font><br>
+	<img alt="studylocation" src="images/<?php echo $StudyLocation?>%20icon.png">
 			</td>
-
-			</tr>
-			</table>
-			<h1 style="font-family:Ebrima">Profile:</h1>
-<img src="images/<?php echo $Gender?>%20icon.png" alt="gender">
-<img src="images/<?php echo $Athlete?>%20icon.png" alt="athlete">
-<img src="images/<?php echo $Smoker?>%20icon.png" alt="smoker">
-<img src="images/<?php echo $Drinker?>%20icon.png" alt="drinker">
-<br>
-<img src="images/<?php echo $SleepHours?>%20icon.png" alt="sleephours">
-<img src="images/<?php echo $StudyHours?>%20icon.png" alt="studyhours">
-<img src="images/<?php echo $StudyLocation?>%20icon.png" alt="studylocation">
-<br>
-<img src="images/<?php echo $SleeperType?>%20icon.png" alt="sleepertype">
-<img src="images/<?php echo $CleaningHabits?>%20icon.png" alt="cleaninghabits">
-<img src="images/<?php echo $Expectations?>%20icon.png" alt="expectations">
-<img src="images/<?php echo $Sharing?>%20icon.png" alt="sharing">
-
-<table width="30%" align="center">
-<tr>
-<td align="center">
-<br>
-<font style="font-family:Ebrima; font-size:16px;font-weight:bold">I have friends over:</font><br>
-<?php if($FriendsOver=="friends_sometimes"){
+			<td align="center">
+			<br>
+			<font style="font-family: Ebrima; font-size: 16px; font-weight: bold">
+			My sharing style is:</font><br>
+			<img alt="sharing" src="images/<?php echo $Sharing?>%20icon.png">
+			</td>
+			<td align="center">
+			<br>
+			<font style="font-family: Ebrima; font-size: 16px; font-weight: bold">
+			I am looking for:</font><br>
+			<img alt="expectations" src="images/<?php echo $Expectations?>%20icon.png">
+			</td>
+		<tr>
+			<td align="center"><br><br>
+			<font style="font-family: Ebrima; font-size: 16px; font-weight: bold">
+			I have friends over:</font><br><?php if($FriendsOver=="friends_sometimes"){
 echo '<img src="images/sometimes icon.png" alt="friends_sometimes">';
 }else if ($FriendsOver=="friends_notoften icon"){
 echo '<img src="images/not often icon.png" alt="friends_notoften">';
 } else {
 echo '<img src="images/all the time icon.png" alt="friends_allthetime">';
-}?>
-</td>
-<td align="center">
-<br>
-<font style="font-family:Ebrima; font-size:16px;font-weight:bold">I have overnight guests:</font><br>
-<?php if($OvernightGuests=="overnight_sometimes"){
+}?></td>
+			<td align="center"><br><br>
+			<font style="font-family: Ebrima; font-size: 16px; font-weight: bold">
+			I have overnight guests:</font><br><?php if($OvernightGuests=="overnight_sometimes"){
 echo '<img src="images/sometimes icon.png" alt="overnight_sometimes">';
 }else if($OvernightGuests=="overnight_notoften"){
 echo '<img src="images/not often icon.png" alt="overnight_notoften">';
 }else {
 echo '<img src="images/all the time icon.png" alt="overnight_allthetime">';
-}?>
-</td></tr>
-<tr>
-<td align="center">
-<br>
-<font style="font-family:Ebrima; font-size:16px;font-weight:bold">I prefer my roommate<br>have friends over:</font><br>
-<?php if($Roommate_friendsover=="roommatefriends_sometimes"){
+}?></td>
+			<td align="center"><br>
+			<font style="font-family: Ebrima; font-size: 16px; font-weight: bold">
+			I prefer my roommate<br>have friends over:</font><br><?php if($Roommate_friendsover=="roommatefriends_sometimes"){
 echo '<img src="images/sometimes icon.png" alt="roomatefriends_sometimes">';
 }else if($Roommate_friendsover=="roommatefriends_notoften"){
 echo '<img src="images/once%20in%20awhile%20icon.png" alt="roommateovernight_notoften">';
 }else {
 echo '<img src="images/all the time icon.png" alt="roommateovernight_allthetime">';
-}?>
-</td>
-<td align="center">
-<br>
-<font style="font-family:Ebrima; font-size:16px;font-weight:bold">I prefer my roommate<br>has overnight guests:</font><br>
-<?php if($Roommate_overnightguest=="roommateovernight_sometimes"){
+}?></td>
+			<td align="center"><br>
+			<font style="font-family: Ebrima; font-size: 16px; font-weight: bold">
+			I prefer my roommate<br>has overnight guests:</font><br><?php if($Roommate_overnightguest=="roommateovernight_sometimes"){
 echo '<img src="images/sometimes icon.png" alt="roommate_overnightguest_sometimes">';
 }else if($Roommate_overnightguest=="roommateovernight_notoften"){
 echo '<img src="images/once%20in%20awhile%20icon.png" alt="roommateovernight_notoften">';
 }else {
 echo '<img src="images/all the time icon.png" alt="roommateovernight_allthetime">';
 }
-?>
-</td>
-</tr>
-</table>
+?></td>
+		</tr>
+	</table>
 </div>
 <script type="text/javascript">function changeImage() {
 	var name = changeImage.caller.arguments[0].target.id;
@@ -232,6 +241,5 @@ echo '<img src="images/all the time icon.png" alt="roommateovernight_allthetime"
 }
 </script>
 <p id="likestuff"></p>
-
 </body>
 </html>

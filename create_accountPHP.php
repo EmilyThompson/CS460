@@ -1,9 +1,6 @@
 <?php
-
 session_start();
 $variable=$_SESSION['UserName'];
-
-//$ErrorLog="";
 
 // define variables and set to empty values
 $FNErr=$LNErr=$LErr=$YOGErr=$GErr=$AErr=$SErr=$DErr=$CErr=$STErr=$SHErr=$STHErr=$SLErr=$FRErr=$GUErr=$RFRErr=$RGUErr=$EXErr=$BErr=$AYErr=$WErr="";
@@ -71,7 +68,6 @@ if (empty($_POST['aboutyou'])){
 } else $AboutYou = $_POST['aboutyou'];
 
 $AccountErr= $FNErr.$LNErr.$LErr.$GErr.$AErr.$SErr.$DErr.$CErr.$STErr.$SHErr.$STHErr.$SLErr.$FRErr.$GUErr.$RFRErr.$RGUErr.$EXErr.$BErr.$AYErr.$WErr;
-echo 'ErrorLog is: '.$AccountErr.'!';
 
 $_SESSION['AccountErr']=$AccountErr;
 $_SESSION['FirstError']=$FNErr;
@@ -94,7 +90,6 @@ $_SESSION['ExpectationsError']=$EXErr;
 $_SESSION['BelongingsError']=$BErr;
 $_SESSION['AboutYouError']=$AYErr;
 $_SESSION['Weekend']=$WErr;
-
 }
     
 if(isset($_POST["submit"])){
@@ -140,7 +135,6 @@ if ($conn->query($sql4) === TRUE) {
 } else {
     $Error="Error with adding hobby: " . $sql3. "<br>" . $conn->error;
 }}
-
 
 $conn->close();
 }

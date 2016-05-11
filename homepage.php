@@ -2,58 +2,9 @@
 <head>
 <title>Find a Falcon</title>
 <link rel="stylesheet" type="text/css" href="final.css">
-<style type="text/css">
-.dropdown-check-list {
-	display: inline-block;
-}
-.dropdown-check-list .anchor {
-	position: relative;
-	cursor: pointer;
-	display: inline-block;
-	padding: 5px 50px 5px 10px;
-	border: 1px solid #ccc;
-}
-.dropdown-check-list .anchor:after {
-	position: absolute;
-	content: "";
-	border-left: 2px solid black;
-	border-top: 2px solid black;
-	padding: 5px;
-	right: 10px;
-	top: 20%;
-	-moz-transform: rotate(-135deg);
-	-ms-transform: rotate(-135deg);
-	-o-transform: rotate(-135deg);
-	-webkit-transform: rotate(-135deg);
-	transform: rotate(-135deg);
-}
-.dropdown-check-list .anchor:active:after {
-	right: 8px;
-	top: 21%;
-}
-.dropdown-check-list ul.items {
-	padding: 2px;
-	display: none;
-	margin: 0;
-	border-top: none;
-}
-.dropdown-check-list ul.items li {
-	list-style: none;
-}
-.dropdown-check-list.visible .anchor {
-	color: white;
-	font-weight:bold;
-}
-.dropdown-check-list.visible .items {
-	display: block;
-	color:white;
-	font-weight:normal;
-}
-</style>
-
-	<script type="text/javascript" src="js/homepage.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-	<script>
+<script type="text/javascript" src="js/homepage.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script>
 	$(document).ready(function(){
 			$(".clickimage").click(function(){
 			var imageId =$(this).attr('id');
@@ -68,17 +19,14 @@
 			
 		});
 	});
-	</script>
-
+</script>
 </head>
 <body>
-
-
 <?php 
 session_start(); 
-  if(!isset($_SESSION['UserName']) && !isset($_SERVER['login'])){ 
-      header("Location: index.php"); }
-$variable = $_SESSION['UserName']; 
+$variable = $_SESSION['UserName'];
+if(!isset($_SESSION['UserName']) && !isset($_SERVER['login'])){ 
+      header("Location: index.php"); } 
 $filterErr="";
 ?>
 
@@ -92,12 +40,9 @@ $filterErr="";
 				<li><a href="aboutus.php">ABOUT US</a></li>
 				<li><a href="logout.php">LOGOUT</a></li>
 			</ul>
-			<br >
-			
-		
+			<br >		
 			
 <!-- Start of search form (dropdowns) HTML FOR DROPDOWNS -->
-		
 <form action="homepage.php" method="post">
 <table id="filters" align="center" style="width: 65%">
 <tr align="center">
@@ -168,6 +113,7 @@ $filterErr="";
 		<input type="checkbox" value="8" name="class_code[]"  checked="checked">8</li>
 	</ul>
 </div></td>
+
 <!-- Location td filter -->
 <td align="center">
 <div id="Location" class="dropdown-check-list" tabindex="100" align="left">
@@ -292,23 +238,15 @@ $filterErr="";
 <!-- Search button -->
 <td id="searchbox">
 <button id="search" type="submit" name="submit" >SEARCH</button>
-
-<!-- <img src="images/search.png" alt="search icon" height="30" width="25"> ** not sure if we want to keep** -->
-
-
-
 </td>
 </tr>
 </table>
 </form>  <!-- End of HTML form for dropdowns -->
-
-		
-
 <br >
 
-		
+<!-- JAVASCRIPT FOR DROPDOWNS-->
+<script type="text/javascript"> 
 
-<script type="text/javascript"> // JAVASCRIPT FOR DROPDOWNS
 //<!-- Gender List -->
         var GenderList = document.getElementById('Gender');
 		GenderList.getElementsByClassName('anchor')[0].onclick = function (evt) {
@@ -344,7 +282,6 @@ $filterErr="";
             else
                 LocationList.classList.add('visible');
         }
-        
 //<!-- Athlete List -->
 		var AthleteList = document.getElementById('Athlete');
 		AthleteList.getElementsByClassName('anchor')[0].onclick = function (evt) {
@@ -353,7 +290,6 @@ $filterErr="";
             else
                 AthleteList.classList.add('visible');
         }
-        
 //<!-- Cleaning List -->
 		var CleaningList = document.getElementById('CleaningHabits');
 		CleaningList.getElementsByClassName('anchor')[0].onclick = function (evt) {
@@ -386,9 +322,7 @@ $filterErr="";
             else
                 SmokingList.classList.add('visible');
         }
-
-    </script> <!-- End of Javascript for dropdowns -->
-
+</script> <!-- End of Javascript for dropdowns -->
 
 <?php // Start of PHP for data
 
@@ -421,7 +355,6 @@ $SmokingHabits = $_POST['smokingHabits'];
 $DrinkingHabits = $_POST['drinkingHabits'];
 $CleaningHabits = $_POST['cleaningHabits'];
 $StudyHabits = $_POST['studyHabits'];
-
 
 // Gender Values
 $GenderChoice="";
@@ -511,8 +444,6 @@ $result = $conn->query($sql1);
 } //end of if a filter is empty else
 } // end of is form posted
 
-
-
 // IF FORM HAS NOT BEEN POSTED! i.e When page loads for first time
 else {
 $sql1 = 'Select * from profile';
@@ -564,8 +495,13 @@ if (in_array($Username, $otherUser)){
  $heart="images/openheart.png";
  }
   
+if (file_exists("uploadedPictures/".$Username.".jpg"))
+	$picname=$Username.".jpg";
+else
+	$picname="default.jpg";
+	
 // Print out table format for data
-echo '<table width="65%" align="center"><tr ="result" height="120px"><td align="center" width="1px"><img id="'.$Username.'" onclick="changeImage()" src="'.$heart.'" alt="heart" class="clickimage"></td><td width="100px"><font face="Ebrima">Profile Picture here!</font></td><td width="100px">';
+echo '<table width="65%" align="center"><tr ="result" height="120px"><td align="center" width="1px"><img id="'.$Username.'" onclick="changeImage()" src="'.$heart.'" alt="heart" class="clickimage"></td><td width="80px"><img src="uploadedPictures/'.$picname.'" height="100px" width="100px"</td><td width="100px">';
 echo '<a href="profile.php?name='.$Username.'" id="name">'.$FirstName.' '.$LastName.'</a><br>';
 echo '<font id="information"> Class of '.$YearOfGraduation.'<br>'.$Smoker.'<br>'.$Drinker.'<br>'.$Athlete.'</font>';
 echo '</td><td width="200px">';
@@ -578,10 +514,10 @@ echo'<a href="'.$Facebook.'">';
 echo '<img src="images/facebook.png" alt="facebook" height="36" width="38"></a><br>';
 }
 if ($Instagram!=""){
-echo '<a href="'.$Instagram.'">';
+echo '<a href="'.$Instagram.'"><img src="images/instagram.gif" alt="instagram" height="37" width="41"></a><br>';
 }
 if ($LinkedIn!=""){
-echo '<img src="images/instagram.gif" alt="instagram" height="37" width="41"></a><br><a href="'.$LinkedIn.'"><img src="images/linkedin.png" alt="Linkedin" height="41" width="43"></a><br>';
+echo '<a href="'.$LinkedIn.'"><img src="images/linkedin.png" alt="Linkedin" height="41" width="43"></a><br>';
 }
 echo '</td></tr></table>';
 }

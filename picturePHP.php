@@ -16,11 +16,13 @@ $file_tmp = $_FILES['profilePicture']['tmp_name'];
 $file_type = $_FILES['profilePicture']['type'];
 print_r($_FILES['profilePicture']);
 }
+
 // Check to see if Method has been posted
 if(!empty($_POST)){
 if(isset($_POST['name'])){
 $name=$_POST['profilePicture'];
 }}
+
 // Make sure the file isn't empty
 if(!empty($_FILES)){
 $extensions = array("jpeg", "jpg", "png");
@@ -28,14 +30,17 @@ $file_ext=explode('.',$_FILES['profilePicture']['name']);
 $file_ext=end($file_ext);
 $file_ext=strtolower($file_ext);
 }
+
 // Make sure it is an image
 if(in_array($file_ext,$extensions)===false){
 $errors[]="extension not allowed";
 }
+
 //Make sure file size is not too big
 if($file_size > 2097152){
 	$errors[]='File size must be less tham 2 MB';
 }	
+
 // If there are no errors than show picture            
 if(empty($errors)==true){
 	$filename=$variable.'.jpg';
@@ -48,4 +53,4 @@ if(empty($errors)==true){
 	}}
 	}
 header("location:create_account.php");
-	?>
+?>

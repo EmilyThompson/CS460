@@ -1,11 +1,10 @@
 <html>
-
 <head>
 <link rel="stylesheet" type="text/css" href="final.css">
 <title>Matches</title>
-	<script type="text/javascript" src="js/homepage.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-	<script>
+<script type="text/javascript" src="js/homepage.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script>
 	$(document).ready(function(){
 			$(".clickimage").click(function(){
 			var imageId =$(this).attr('id');
@@ -20,8 +19,7 @@
 			
 		});
 	});
-	</script>
-
+</script>
 </head>
 <body>
 <div id="page-wrap" align="center">
@@ -31,28 +29,25 @@
 		<li><a href="homepage.php">HOME</a></li>
 		<li><a href="UsersILike.php"style="color: #4E79CB">MY LIKES</a></li>
 		<li><a href="account_start.php" >MY PROFILE</a></li>
-		<li><a href="aboutus.php">ABOUT</a></li>
+		<li><a href="aboutus.php">ABOUT US</a></li>
 		<li><a href="logout.php">LOGOUT</a></li>
 	</ul>
 	<br>
-	
 	<ul id="tabs" style="height: 16px">
-	<li id="item"><a id="tab"href="UsersILike.php">USERS I LIKE</a></li>
-	<li id="item"><a id="tab" href="UsersWhoLikeMe.php">USERS WHO LIKE ME</a></li>
-	<li id="selected"><a id ="tab" href="Matches.php">MATCHES</a></li>
+		<li id="item"><a id="tab"href="UsersILike.php">USERS I LIKE</a></li>
+		<li id="item"><a id="tab" href="UsersWhoLikeMe.php">USERS WHO LIKE ME</a></li>
+		<li id="selected"><a id ="tab" href="Matches.php">MATCHES</a></li>
 	</ul>	
 	<br>
 </div>
 
 <?php 
-
 session_start();
+$variable = $_SESSION['UserName']; 
   if(!isset($_SESSION['UserName']) && !isset($_SERVER['login'])){ 
       header("Location: index.php"); }
-$variable = $_SESSION['UserName']; 
-
-$variable = $_SESSION['UserName'];
-
+      
+// Connection Credentials
 $servername = "frodo.bentley.edu";
 $username = "cs460teamd";
 $password = "cs460teamd";
@@ -65,7 +60,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-//$variable = $_SESSION['UserName'];
+// SQL statement to get other user
 $sql1= "Select otherUser From like_tbl where username='".$variable."'";
 $result78= $conn->query($sql1);
 $UserArr=array();
@@ -75,6 +70,7 @@ foreach($result78 as $row){
 array_push($UserArr,$row['otherUser']);
 }}
 
+// SQL statement to get matches
 $sql="Select username, otherUser From like_tbl where username='".$variable."' AND otherUser in (Select username from like_tbl Where otherUser='".$variable."')";
 $result=$conn->query($sql);
  if ($result->num_rows>0){
@@ -82,6 +78,7 @@ $result=$conn->query($sql);
  $Username=$row['username'];
  $otherUser=$row['otherUser'];
 
+// Select statement to get profiles other user liked
 $sql2 = "Select * from profile WHERE Username='".$otherUser."'";
 $result2 = $conn->query($sql2);
 
@@ -119,8 +116,13 @@ if (in_array($Username, $UserArr)){
  $heart="images/openheart.png";
  }
 
+if (file_exists("uploadedPictures/".$Username.".jpg"))
+	$picname=$Username.".jpg";
+else
+	$picname="default.jpg";
+	
 // Print out table format for data
-echo '<table id="results" align="center" width="60%"><tr id="result"><td align="center" width="1px"><img id='.$Username.' onclick="changeImage()" src="'.$heart.'" alt="heart" class="clickimage"></td><td width="100px"><font face="Ebrima">Profile Picture here!</font></td><td width="100px">';
+echo '<table id="results" align="center" width="60%"><tr id="result"><td align="center" width="1px"><img id='.$Username.' onclick="changeImage()" src="'.$heart.'" alt="heart" class="clickimage"></td><td width="80px"><img src="uploadedPictures/'.$picname.'" height="100px" width="100px"</td><td width="100px">';
 echo '<a href="profile.php?name='.$Username.'" id="name">'.$FirstName.' '.$LastName.'</a><br>';
 echo '<font id="information"> Class of '.$YearOfGraduation.'<br>'.$Smoker.'<br>'.$Drinker.'<br>'.$Athlete.'</font>';
 echo '</td><td width="200px">';
@@ -133,17 +135,16 @@ echo'<a href="'.$Facebook.'">';
 echo '<img src="images/facebook.png" alt="facebook" height="36" width="38"></a><br>';
 }
 if ($Instagram!=""){
-echo '<a href="'.$Instagram.'">';
+echo '<a href="'.$Instagram.'"><img src="images/instagram.gif" alt="instagram" height="37" width="41"></a><br>';
 }
 if ($LinkedIn!=""){
-echo '<img src="images/instagram.gif" alt="instagram" height="37" width="41"></a><br>.<a href="'.$LinkedIn.'"><img src="images/linkedin.png" alt="Linkedin" height="41" width="43"></a><br>';
+echo '<a href="'.$LinkedIn.'"><img src="images/linkedin.png" alt="Linkedin" height="41" width="43"></a><br>';
 }
 echo '</td></tr></table>';
 }}else echo '<font face="Ebrima">No results, please try another search.</font>';
 
 }}
 $conn->close();
-
 ?>
 
 <script type="text/javascript">function changeImage() {

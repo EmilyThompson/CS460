@@ -18,7 +18,6 @@ if(empty($_POST['PassCheck'])){
   	$Err = $Err."<br> Please retype password.";
 } else $PasswordCheck = $_POST['PassCheck'];
 
-
 $UserName=strtolower($UserName);
 
 // Connection Credentials

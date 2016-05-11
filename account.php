@@ -1,5 +1,4 @@
 <html>
-
 <head>
 <title>Find a Falcon</title>
 <link rel="stylesheet" type="text/css" href="final.css">
@@ -11,14 +10,13 @@ th, td {
 </style>
 </head>
 <body>
-
 <?php
-
 session_start();
+$variable = $_SESSION['UserName'];
+
 if(empty($_SESSION['UpdateErr'])){
 $FNErr=$LNErr=$LErr=$WErr=$AYErr="";
-}
-else {
+}else {
 $FNErr=$_SESSION['FNErr'];
 $LNErr=$_SESSION['LNErr'];
 $LErr=$_SESSION['LErr'];
@@ -38,7 +36,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$variable = $_SESSION['UserName'];
+// SQL query for profile
 $sql1 = "SELECT * FROM profile WHERE Username='$variable'";
 $result = $conn->query($sql1);
 
@@ -72,20 +70,18 @@ $Instagram = $row['Instagram'];
 } else {
 	echo '0 results';
 	}
-
+// SQL query for location
 $sql2 = "SELECT location FROM locationform WHERE User='$Username'";
 $result2 = $conn->query($sql2);
-
+// SQL query for hobby
 $sql3 = "SELECT hobby FROM weekendhobby WHERE user='$Username'";
 $result3 = $conn->query($sql3);
 
 $conn->close();
-
 ?>	
 
 <div id="page-wrap" align="center">
 		<!-- CENTER WHOLE DOC -->
-
 		<a href="homepage.php"><img align="middle" alt="LOGO" src="images/Find%20a%20Falcon%20FINAL%20logo.png" title="Logo"></a>
 			<ul id="menu">
 				<li><a href="homepage.php">HOME</a></li>
@@ -190,31 +186,29 @@ $conn->close();
 			<!-- First row = gender, athlete -->
 			<tr>
 				<td align="center" style="width: 371px">
-				<p id="question">Gender</p>
-				
-		
+				<p id="question">Gender</p>		
 				<input id="male" name="gender" type="radio" <?php if(isset($Gender) && $Gender=='male') echo 'checked';?> value="male"><label for="male"><img alt="icon" height="100x" src="images/male%20icon.png" width="100px"></label>
 				<input id="female" name="gender" type="radio" <?php if(isset($Gender) && $Gender=='female') echo 'checked';?> value="female"><label for="female"><img alt="icon" height="100x" src="images/female%20icon.png" width="100px"></label>
 				<input id="other" name="gender" type="radio" <?php if(isset($Gender) && $Gender=='other') echo 'checked';?> value="other"><label for="other"><img alt="icon" height="100x" src="images/other%20icon.png" width="100px"></label></td>
 				<td align="center" style="width: 388px">
 				<p id="question">Are you a student athlete?</p>
-				<input id="athlete" name="athlete" type="radio" <?php if(isset($Athlete) && $Athlete='Y') echo 'checked';?> value="Athlete"><label for="athlete"><img alt="icon" height="100x" src="images/athlete%20icon.png" width="100px"></label>
-				<input id="nonathlete" name="athlete" type="radio" <?php if(isset($Athlete) && $Athlete='N') echo 'checked';?> value="Non-Athlete"><label for="nonathlete"><img alt="icon" height="100x" src="images/non-athlete%20icon.png" width="100px"></label>
+				<input id="athlete" name="athlete" type="radio" <?php if(isset($Athlete) && $Athlete=='Athlete') echo 'checked';?> value="Athlete"><label for="athlete"><img alt="icon" height="100x" src="images/athlete%20icon.png" width="100px"></label>
+				<input id="nonathlete" name="athlete" type="radio" <?php if(isset($Athlete) && $Athlete=='Non-Athlete') echo 'checked';?> value="Non-Athlete"><label for="nonathlete"><img alt="icon" height="100x" src="images/non-athlete%20icon.png" width="100px"></label>
 				</td>
 			</tr>
 			<!-- Second row = smoking, drinking -->
 			<tr align="center">
 				<td>
 				<p id="question">Do you smoke?</p>
-				<input id="smoker" name="smoker" type="radio" <?php if(isset($Smoker) && $Smoker='S') echo 'checked';?> value="Smoke"><label for="smoker"><img alt="icon" height="100x" src="images/smoker%20icon.png" width="100px"></label>
-				<input id="freqsmoker" name="smoker" type="radio" <?php if(isset($Smoker) && $Smoker='F') echo 'checked';?> value="Casual Smoker"><label for="freqsmoker"><img alt="icon" height="100x" src="images/casual%20smoker%20icon.png" width="100px"></label>
-				<input id="nonsmoker" name="smoker" type="radio" <?php if(isset($Smoker) && $Smoker='N') echo 'checked';?> value="Non-Smoker"><label for="nonsmoker"><img alt="icon" height="100x" src="images/non-smoker%20icon.png" width="100px"></label>
+				<input id="smoker" name="smoker" type="radio" <?php if(isset($Smoker) && $Smoker=='Smoker') echo 'checked';?> value="Smoker"><label for="smoker"><img alt="icon" height="100x" src="images/smoker%20icon.png" width="100px"></label>
+				<input id="freqsmoker" name="smoker" type="radio" <?php if(isset($Smoker) && $Smoker=='Casual Smoker') echo 'checked'; else echo 'casual smoker error';?> value="Casual Smoker"><label for="freqsmoker"><img alt="icon" height="100x" src="images/casual%20smoker%20icon.png" width="100px"></label>
+				<input id="nonsmoker" name="smoker" type="radio" <?php if(isset($Smoker) && $Smoker=='Non-Smoker') echo 'checked';?> value="Non-Smoker"><label for="nonsmoker"><img alt="icon" height="100x" src="images/non-smoker%20icon.png" width="100px"></label>
 				</td>
 				<td>
 				<p id="question">Do you drink?</p>
-				<input id="partydrinker" name="drinker" type="radio" <?php if(isset($Drinker) && $Drinker='D') echo 'checked';?> value="Party Drinker"><label for="partydrinker"><img alt="icon" height="100x" src="images/party%20drinker%20icon.png" width="100px"></label>
-				<input id="socialdrinker" name="drinker" type="radio" <?php if(isset($Drinker) && $Drinker='S') echo 'checked';?> value="Social Drinker"><label for="socialdrinker"><img alt="icon" height="100x" src="images/social%20drinker%20icon.png" width="100px"></label>
-				<input id="nondrinker" name="drinker" type="radio" <?php if(isset($Drinker) && $Drinker='N') echo 'checked';?> value="Non-Drinker"><label for="nondrinker"><img alt="icon" height="100x" src="images/non-drinker%20icon.png" width="100px"></label>
+				<input id="partydrinker" name="drinker" type="radio" <?php if(isset($Drinker) && $Drinker=='Party Drinker') echo 'checked';?> value="Party Drinker"><label for="partydrinker"><img alt="icon" height="100x" src="images/party%20drinker%20icon.png" width="100px"></label>
+				<input id="socialdrinker" name="drinker" type="radio" <?php if(isset($Drinker) && $Drinker=='Social Drinker') echo 'checked';?> value="Social Drinker"><label for="socialdrinker"><img alt="icon" height="100x" src="images/social%20drinker%20icon.png" width="100px"></label>
+				<input id="nondrinker" name="drinker" type="radio" <?php if(isset($Drinker) && $Drinker=='Non-Drinker') echo 'checked';?> value="Non-Drinker"><label for="nondrinker"><img alt="icon" height="100x" src="images/non-drinker%20icon.png" width="100px"></label>
 				</td>
 			</tr>
 			<!-- Third row = study habits -->
@@ -325,14 +319,14 @@ $conn->close();
 		<input id="submit" type="submit" name="submit" value="Save Settings" style="width: 194px; height: 44px"> </label>
 		</div>
 	</form>
-			<a href="deleteAccountPHP.php">
-			<button id="delete" style="width: 194px; height: 44px" onclick="Delete()">Delete Account</button></a>
+			<button id="delete" style="width: 194px; height: 44px" onclick="Delete()">Delete Account</button>
 	</div>
 <script type="text/javascript">
 function Delete() {
     var txt;
-    var r = confirm("Are you sure you want to delete your account? Click OK if yes.!");
+    var r = confirm("Are you sure you want to delete your account? Click OK if yes!");
     if (r == true) {
+        window.location="deleteAccountPHP.php"
         txt = "You pressed OK!";
     } else {
         txt = "You pressed Cancel!";

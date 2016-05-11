@@ -10,7 +10,6 @@ $WErr=$_SESSION['WErr'];
 $AYErr=$_SESSION['AYErr'];
 
 // define variables that have errors and set Errors
-
 $FNErr=$LNErr=$LErr=$WErr=$AYErr=""; 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 if(empty($_POST['Text1'])){
@@ -75,6 +74,7 @@ echo ' entered loop';
 
 // SQL statement to update profile
 $sql2 = "UPDATE profile SET Firstname='$Firstname', Lastname='$Lastname', YOGID='$YearOfGraduation', ClassCode=$ClassCode, Gender='$Gender',Athlete='$Athlete',Smoker='$Smoker',Drinker='$Drinker',clean='$CleaningHabits',sleepType='$SleeperType',sleepHours='$SleepHours',studyHours='$StudyHours',locationOfStudy='$StudyLocation',friends='$FriendsOver',guest='$OvernightGuests',roommateFriend='$Roommate_friendsover',roommateGuest='$Roommate_overnightguest',expectations='$Expectations',belongings='$Sharing', AboutYou='$AboutYou', Facebook='$Facebook', LinkedIn='$LinkedIn', Instagram='$Instagram' WHERE  Username='$variable'";
+echo $sql2;
 if ($conn->query($sql2) === TRUE) {
     echo "Profile updated <br>";
 } else {

@@ -9,6 +9,7 @@ session_start();
 $LoginErr=$_SESSION['Login'];
 $_SESSION['ErrorLog']="";
 ?>
+
 <!-- Centers whole page -->
 <div id="page-wrap" align="center">
 <!-- Logo -->

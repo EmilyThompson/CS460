@@ -8,6 +8,7 @@
 session_start();
 $variable=$_SESSION['UserName'];
 $AccountErr=$_SESSION['AccountErr'];
+
 if (empty($AccountErr)){
 $FNErr=$LNErr=$LErr=$YOGErr=$GErr=$AErr=$SErr=$DErr=$CErr=$STErr=$SHErr=$STHErr=$SLErr=$FRErr=$GUErr=$RFRErr=$RGUErr=$EXErr=$BErr=$AYErr=$WErr="";
 }else if (!empty($AccountErr)){
@@ -34,7 +35,6 @@ $WErr=$_SESSION['Weekend'];
 }
 ?>
 
-
 <div id="page-wrap" align="center">
 	<!-- CENTER WHOLE DOC -->
 	<img align="middle" alt="LOGO" src="images/Find%20a%20Falcon%20FINAL%20logo.png" title="Logo">
@@ -42,7 +42,6 @@ $WErr=$_SESSION['Weekend'];
 <br><img src="<?php echo 'uploadedPictures/'.$variable.'.jpg'?>" alt="No profile picture" width="150px" height="150px"><br>
 	<br><a href="picture.php"><button id="submit">&#10094; Change Picture</button></a>
 	</div>
-
 	<form action="create_accountPHP.php" method="post">
 		<!-- Table 1 -->
 		<table id ="tableC"align="center" style="width: 60%">
@@ -147,7 +146,7 @@ $WErr=$_SESSION['Weekend'];
 				<font id="error"><?php echo $SErr?></font>
 				<p id="question">Do you smoke?</p>
 				<input id="smoker" name="smoker" type="radio" value="Smoker"><label for="smoker"><img alt="icon" height="100x" src="images/smoker%20icon.png" width="100px"></label>
-				<input id="freqsmoker"smoker" type="radio" value="Casual Smoker"><label for="freqsmoker"><img alt="icon" height="100x" src="images/casual%20smoker%20icon.png" width="100px"></label>
+				<input id="freqsmoker" name="smoker" type="radio" value="Casual Smoker"><label for="freqsmoker"><img alt="icon" height="100x" src="images/casual%20smoker%20icon.png" width="100px"></label>
 				<input id="nonsmoker" name="smoker" type="radio" value="Non-Smoker"><label for="nonsmoker"><img alt="icon" height="100x" src="images/non-smoker%20icon.png" width="100px"></label>
 				</td>
 				<td>
@@ -245,7 +244,7 @@ $WErr=$_SESSION['Weekend'];
 				</td>
 				<td>
 				<font id="error"><?php echo $RGUErr?></font>
-				<p id="question" align="center">How do you feel abouty our roommate<br>
+				<p id="question" align="center">How do you feel about your roommate<br>
 				hosting overnight guests?</p>
 				<input id="roommateovernight_allthetime" name="roommate_overnightguest" type="radio" value="roommateovernight_allthetime"><label for="roommateovernight_allthetime"><img alt="icon" height="100x" src="images/whenever%20they%20want%20icon.png" width="100px"></label>
 				<input id="roommateovernight_sometimes" name="roommate_overnightguest" type="radio" value="roommateovernight_sometimes"><label for="roommateovernight_sometimes"><img alt="icon" height="100x" src="images/once%20in%20awhile%20icon.png" width="100px"></label>
